@@ -1,0 +1,1486 @@
+---
+title: "Soapbox event Kamloops 2024"
+author: "Jessica Alligham"
+date: "2024-08-29"
+output: html_document
+---
+
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(readxl) # Use readr::read_csv if the file is in CSV format
+
+# Step 1: Load the data (assuming the file is an Excel file)
+
+data <- read_excel("Soapbox Science Community Outreach Impact_34observations.xlsx", sheet = 1)
+
+# Step 2: Remove unnecessary columns
+columns_to_remove <- c(
+  "Respondent ID", "Collector ID", "Start Date", "End Date", "IP Address", 
+  "Email Address", "First Name", "Last Name", "Custom Data 1", 
+  "Do you consent to having your data in the study?", 
+  "What is your identifying number which will only be used if you wish to withdraw your data from the study after completion?",
+  "Thank you for participating in our study and taking part in Kamloops’ Soapbox Science event."
+)
+
+# Remove the unnecessary columns
+data_cleaned <- data %>% 
+  dplyr::select(-all_of(columns_to_remove))  
+data_cleaned<-data_cleaned[-1,-1]
+
+columns_to_merge <- c("Science and research improve our lives.", "...14", "...15", "...16")
+
+# Step 3: Merge the columns into a single column
+# We use coalesce() which will take the first non-NA value from the specified columns for each row
+data_cleaned_merge1 <- data_cleaned %>%
+  mutate(`Science and research improve our lives.` = coalesce(!!!syms(columns_to_merge)))
+
+# Step 4: Remove the original option columns
+data_cleaned_merge1 <- data_cleaned_merge1 %>% 
+  dplyr::select(-all_of(columns_to_merge[2:4]))
+
+# Step 5: View the cleaned data to verify
+names(data_cleaned_merge1)
+head(data_cleaned_merge1)
+#View(data_cleaned_merge1)# Display the first few rows to verify
+```
+
+```{r}
+# Step 6: Merge the next set of columns for "I am good with observation and problems solving (the scientific method)."
+columns_to_merge2 <- c("I am good with observation and problems solving (the scientific method).", "...18", "...19", "...20")
+
+data_cleaned_merge2 <- data_cleaned_merge1 %>%
+  mutate(`I am good with observation and problems solving (the scientific method).` = coalesce(!!!syms(columns_to_merge2)))
+
+# Remove the original option columns for the second question
+data_cleaned_merge2 <- data_cleaned_merge2 %>% 
+  dplyr::select(-all_of(columns_to_merge2[2:4]))
+
+
+names(data_cleaned_merge2)
+head(data_cleaned_merge2)
+#View(data_cleaned_merge2) # Display the first few rows to verify
+```
+
+
+```{r}
+# Step 7: Merge the next set of columns for "I would consider starting my career in or switching my career to be in the field of science, technology, engineering, or math if given the opportunity to do so."
+columns_to_merge3 <- c("I would consider starting my career in or switching my career to be in the field of science, technology, engineering, or math if given the opportunity to do so.", "...22", "...23", "...24")
+
+data_cleaned_merge3 <- data_cleaned_merge2 %>%
+  mutate(`I would consider starting my career in or switching my career to be in the field of science, technology, engineering, or math if given the opportunity to do so.` = coalesce(!!!syms(columns_to_merge3)))
+
+# Remove the original option columns for the second question
+data_cleaned_merge3 <- data_cleaned_merge3 %>% 
+  dplyr::select(-all_of(columns_to_merge3[2:4]))
+
+
+names(data_cleaned_merge3)
+head(data_cleaned_merge3)
+#View(data_cleaned_merge3) # Display the first few rows to verify
+```
+
+```{r}
+# Step 8: Merge the next set of columns for "It was inspirational to see women and non-binary scientists sharing their research."
+columns_to_merge4 <- c("It was inspirational to see women and non-binary scientists sharing their research.", "...26", "...27", "...28")
+
+data_cleaned_merge4 <- data_cleaned_merge3 %>%
+  mutate(`It was inspirational to see women and non-binary scientists sharing their research.` = coalesce(!!!syms(columns_to_merge4)))
+
+# Remove the original option columns 
+data_cleaned_merge4 <- data_cleaned_merge4 %>% 
+  dplyr::select(-all_of(columns_to_merge4[2:4]))
+
+
+names(data_cleaned_merge4)
+head(data_cleaned_merge4)
+#View(data_cleaned_merge4) # Display the first few rows to verify
+```
+
+```{r}
+# Step 9: Merge the next set of columns for "The Kamloops Soapbox Science event increased my interest in science and research."
+columns_to_merge5 <- c("The Kamloops Soapbox Science event increased my interest in science and research.", "...30", "...31", "...32")
+
+data_cleaned_merge5 <- data_cleaned_merge4 %>%
+  mutate(`The Kamloops Soapbox Science event increased my interest in science and research.` = coalesce(!!!syms(columns_to_merge5)))
+
+# Remove the original option columns for the second question
+data_cleaned_merge5 <- data_cleaned_merge5 %>% 
+  dplyr::select(-all_of(columns_to_merge5[2:4]))
+
+
+names(data_cleaned_merge5)
+head(data_cleaned_merge5)
+#View(data_cleaned_merge5) # Display the first few rows to verify
+```
+
+```{r}
+# Step 10: Merge the next set of columns for "How interested are you in science and research?"
+columns_to_merge6 <- c("How interested are you inscience and research?", "...34", "...35", "...36")
+
+data_cleaned_merge6 <- data_cleaned_merge5 %>%
+  mutate(`How interested are you inscience and research?` = coalesce(!!!syms(columns_to_merge6)))
+
+# Remove the original option columns
+data_cleaned_merge6 <- data_cleaned_merge6 %>% 
+  dplyr::select(-all_of(columns_to_merge6[2:4]))
+
+
+names(data_cleaned_merge6)
+head(data_cleaned_merge6)
+View(data_cleaned_merge6) # Display the first few rows to verify
+```
+
+
+
+```{r}
+# Step 11: Merge the next set of columns for "What is your educational background?"
+columns_to_merge7 <- c("What is your educational background?", "...78", "...79","...80","...81","...82","...83")
+
+data_cleaned_merge7 <- data_cleaned_merge6 %>%
+  mutate(`What is your educational background?` = coalesce(!!!syms(columns_to_merge7)))
+
+# Remove the original option columns
+data_cleaned_merge7 <- data_cleaned_merge7 %>% 
+  dplyr::select(-all_of(columns_to_merge7[2:7]))
+
+
+names(data_cleaned_merge7)
+head(data_cleaned_merge7)
+#View(data_cleaned_merge7) # Display the first few rows to verify
+```
+
+```{r}
+# Step 12: Merge the next set of columns for "What is your educational background?"
+columns_to_merge8 <- c("What is your gender?", "...58", "...59","...60","...61","...62","...63","...64","...65")
+
+data_cleaned_merge8 <- data_cleaned_merge7 %>%
+  mutate(`What is your gender?` = coalesce(!!!syms(columns_to_merge8)))
+
+# Remove the original option columns
+data_cleaned_merge8 <- data_cleaned_merge8 %>% 
+  dplyr::select(-all_of(columns_to_merge8[2:9]))
+
+
+names(data_cleaned_merge8)
+head(data_cleaned_merge8)
+View(data_cleaned_merge8) # Display the first few rows to verify
+```
+
+```{r}
+# Step 13: Merge the next set of columns for "What is your educational background?"
+columns_to_merge9 <- c("How old are you?", "...50", "...51","...52","...53","...54","...55","...56")
+
+data_cleaned_merge9 <- data_cleaned_merge8 %>%
+  mutate(`How old are you?` = coalesce(!!!syms(columns_to_merge9)))
+
+# Remove the original option columns
+data_cleaned_merge9 <- data_cleaned_merge9 %>% 
+  dplyr::select(-all_of(columns_to_merge9[2:8]))
+
+
+names(data_cleaned_merge9)
+head(data_cleaned_merge9)
+#View(data_cleaned_merge9) # Display the first few rows to verify
+```
+
+```{r}
+
+# Step 14: Split and Extract Features for Each Column
+# Columns to process for multiple options per respondent
+columns_to_process10 <- c("Who below looks like a scientist (select all that apply)?", "...38", "...39", "...40", "...41", 
+                          "...42", "...43", "...44", "...45", "...46", "...47", "...48")
+
+
+data_cleaned_split <- data_cleaned_merge9  # Initialize the new DataFrame
+
+for (i in seq_along(columns_to_process10)) {
+  # Column name to process
+  column_name <- columns_to_process10[i]
+  
+  # Extract features for each selection in the specified column
+  data_cleaned_split <- data_cleaned_split %>%
+    mutate(
+      !!paste0("Age_", i) := ifelse(str_detect(!!sym(column_name), "middle aged"), "Middle aged",
+                                    ifelse(str_detect(!!sym(column_name), "older"), "Older", NA)),
+      
+      # Improved Ethnicity detection with better logic to handle "white" in phrases
+      !!paste0("Ethnicity_", i) := ifelse(
+        str_detect(!!sym(column_name), "white"), "White",
+        ifelse(str_detect(!!sym(column_name), "black"), "Black",
+               ifelse(str_detect(!!sym(column_name), "asian"), "Asian", NA))),
+      
+      # Ensure 'female' is checked before 'male'
+      !!paste0("Gender_", i) := ifelse(str_detect(!!sym(column_name), "female"), "Female",
+                                       ifelse(str_detect(!!sym(column_name), "male"), "Male", NA)),
+      
+      # Consolidate Dressing into "Casual" and "Formal"
+      !!paste0("Dressing_", i) := case_when(
+        str_detect(!!sym(column_name), "red shirt|green shirt|red tank top|graphic t-shirt| headband| tank top|backwards ball cap|ball cap") ~ "Casual",
+        str_detect(!!sym(column_name), "pink shirt|lab coat|red jacket") ~ "Formal",
+        TRUE ~ NA
+      ),
+      
+      # Consolidate Expression into "Positive," "Neutral," and "Serious"
+      !!paste0("Expression_", i) := case_when(
+        str_detect(!!sym(column_name), "smiling|big smile") ~ "Positive",
+        str_detect(!!sym(column_name), "straight face") ~ "Neutral",
+        TRUE ~ NA
+      )
+    )
+}
+
+# View the split data to verify
+#View(data_cleaned_split)
+
+# Step 2: Remove the Original Columns After Splitting
+data_cleaned_after_split <- data_cleaned_split %>%
+  dplyr::select(-all_of(columns_to_process10))  # Remove the original columns
+
+# View the data after removing original columns
+#View(data_cleaned_after_split)
+
+# Step 3: Create Binary Indicators for Each Category
+binary_columns <- list(
+  "Middle aged" = "Scientist_Age_MiddleAged",
+  "Older" = "Scientist_Age_Older",
+  "White" = "Scientist_Ethnicity_White",
+  "Black" = "Scientist_Ethnicity_Black",
+  "Asian" = "Scientist_Ethnicity_Asian",
+  "Male" = "Scientist_Gender_Male",
+  "Female" = "Scientist_Gender_Female",
+  "Casual" = "Scientist_Dressing_Casual",
+  "Formal" = "Scientist_Dressing_Formal",
+  "Positive" = "Scientist_Expression_Positive",
+  "Neutral" = "Scientist_Expression_Neutral"
+)
+
+# Initialize binary columns
+for (binary_name in binary_columns) {
+  data_cleaned_after_split[[binary_name]] <- 0
+}
+
+# Assign binary values based on existing categories
+for (binary_col in names(binary_columns)) {
+  target_col <- binary_columns[[binary_col]]
+  data_cleaned_after_split[[target_col]] <- apply(data_cleaned_after_split, 1, function(row) {
+    ifelse(any(row == binary_col, na.rm = TRUE), 1, 0)
+  })
+}
+
+# View the data with binary indicators
+#View(data_cleaned_after_split)
+
+#  Remove the Intermediate Split Columns After Consolidation
+data_merged10 <- data_cleaned_after_split %>%
+  dplyr::select(-matches("Age_\\d+|Ethnicity_\\d+|Gender_\\d+|Dressing_\\d+|Expression_\\d+"))  # Remove intermediate split columns
+
+# View the final consolidated data
+#View(data_merged10)
+
+```
+
+
+```{r}
+
+
+# Columns to process for multiple options per respondent (ethnic group question)
+columns_to_process_ethnic <- c("To which ethnic group do you belong, select all that apply?", "...67", "...68", "...69", "...70", 
+                          "...71", "...72", "...73", "...74", "...75", "...76")
+
+# Ethnic group options
+ethnic_options <- list(
+  "Black" = "Response_Ethnicity_Black",
+  "White" = "Response_Ethnicity_White",
+  "East Asian" = "Response_Ethnicity_EastAsian",
+  "South Asian" = "Response_Ethnicity_SouthAsian",
+  "Southeast Asian" = "Response_Ethnicity_SoutheastAsian",
+  "Latino" = "Response_Ethnicity_Latino",
+  "Indigenous" = "Response_Ethnicity_Indigenous",
+  "Middle Eastern / West Asian" = "Response_Ethnicity_MiddleEastern_WestAsian",
+  "Not listed" = "Response_Ethnicity_NotListed",
+  "I am not certain" = "Response_Ethnicity_NotCertain",
+  "Prefer not to answer" = "Response_Ethnicity_PreferNotToAnswer"
+)
+
+# Step 15: Split and Extract Ethnic Group Features for Each Column
+data_cleaned_split_ethnic <- data_merged10  # Use the final cleaned data from the previous steps
+
+for (i in seq_along(columns_to_process_ethnic)) {
+  # Column name to process
+  column_name <- columns_to_process_ethnic[i]
+  
+  # Extract features for each selection in the specified column
+  data_cleaned_split_ethnic <- data_cleaned_split_ethnic %>%
+    mutate(
+      # Binary indicators for each ethnicity option
+      !!paste0("Ethnicity_Black_", i) := ifelse(str_detect(!!sym(column_name), "Black"), 1, 0),
+      !!paste0("Ethnicity_White_", i) := ifelse(str_detect(!!sym(column_name), "White"), 1, 0),
+      !!paste0("Ethnicity_EastAsian_", i) := ifelse(str_detect(!!sym(column_name), "East Asian"), 1, 0),
+      !!paste0("Ethnicity_SouthAsian_", i) := ifelse(str_detect(!!sym(column_name), "South Asian"), 1, 0),
+      !!paste0("Ethnicity_SoutheastAsian_", i) := ifelse(str_detect(!!sym(column_name), "Southeast Asian"), 1, 0),
+      !!paste0("Ethnicity_Latino_", i) := ifelse(str_detect(!!sym(column_name), "Latino"), 1, 0),
+      !!paste0("Ethnicity_Indigenous_", i) := ifelse(str_detect(!!sym(column_name), "Indigenous"), 1, 0),
+      !!paste0("Ethnicity_MiddleEastern_WestAsian_", i) := ifelse(str_detect(!!sym(column_name), "Middle Eastern / West Asian"), 1, 0),
+      !!paste0("Ethnicity_NotListed_", i) := ifelse(str_detect(!!sym(column_name), "Not listed"), 1, 0),
+      !!paste0("Ethnicity_NotCertain_", i) := ifelse(str_detect(!!sym(column_name), "I am not certain"), 1, 0),
+      !!paste0("Ethnicity_PreferNotToAnswer_", i) := ifelse(str_detect(!!sym(column_name), "Prefer not to answer"), 1, 0)
+    )
+}
+
+# View the split data to verify
+#View(data_cleaned_split_ethnic)
+
+# Remove the Original Columns After Splitting
+data_cleaned_after_split_ethnic <- data_cleaned_split_ethnic %>%
+  dplyr::select(-all_of(columns_to_process_ethnic))  # Remove the original columns
+
+# View the data after removing original columns
+#View(data_cleaned_after_split_ethnic)
+
+# Consolidate Binary Indicators for Each Ethnic Group
+for (binary_col in names(ethnic_options)) {
+  target_col <- ethnic_options[[binary_col]]
+  ethnic_pattern <- paste0("Ethnicity_", gsub("Response_Ethnicity_", "", target_col), "_")
+  
+  # Select columns matching the pattern using grep
+  relevant_columns <- grep(ethnic_pattern, names(data_cleaned_after_split_ethnic), value = TRUE)
+  
+  # Check across all the new split columns and set consolidated value
+  data_cleaned_after_split_ethnic[[target_col]] <- apply(data_cleaned_after_split_ethnic[, relevant_columns], 1, function(row) {
+    ifelse(any(row == 1, na.rm = TRUE), 1, 0)
+  })
+}
+
+# View the consolidated data to verify
+#View(data_cleaned_after_split_ethnic)
+
+# Remove the Intermediate Split Columns After Consolidation
+final_data_cleaned <- data_cleaned_after_split_ethnic %>%
+  dplyr::select(-matches("Ethnicity_\\w+_\\d+"))  # Remove intermediate split columns
+
+# View the final consolidated data
+View(final_data_cleaned)
+
+```
+
+
+```{r}
+#install.packages("openxlsx")
+library(openxlsx)
+
+write.xlsx(final_data_cleaned, "final_data_cleaned.xlsx")
+
+
+```
+
+
+```{r}
+# Read the cleaned CSV file into R
+soapbox_data <-  read_excel("final_data_cleaned.xlsx")
+
+# View the first few rows of the data to verify
+head(soapbox_data)
+View(soapbox_data)
+names(soapbox_data)
+
+```
+
+
+
+
+```{r}
+
+
+# Rename columns with meaningful names
+colnames(soapbox_data) <- c(
+  "Improves_Lives",                      # Science and research improve our lives.
+  "Good_With_Scientific_Method",         # I am good with observation and problem solving (the scientific method).
+  "Consider_Career_In_STEM",             # I would consider starting my career or switching to a career in STEM.
+  "Inspired_By_Women_NonBinary_Scientists", # It was inspirational to see women and non-binary scientists sharing their research.
+  "Interest_Increased_By_Event",         # The Kamloops Soapbox Science event increased my interest in science and research.
+  "Interest_In_Science_Research",        # How interested are you in science and research?
+  "Age",                                 # How old are you?
+  "Gender",                              # What is your gender?
+  "Educational_Background",              # What is your educational background?
+  "Scientist_Age_MiddleAged",            # Middle-aged indicator
+  "Scientist_Age_Older",                 # Older indicator
+  "Scientist_Ethnicity_White",           # White Ethnicity indicator for scientist
+  "Scientist_Ethnicity_Black",           # Black Ethnicity indicator for scientist
+  "Scientist_Ethnicity_Asian",           # Asian Ethnicity indicator for scientist
+  "Scientist_Gender_Male",               # Male Gender indicator for scientist
+  "Scientist_Gender_Female",             # Female Gender indicator for scientist
+  "Scientist_Dressing_Casual",           # Casual Dressing indicator for scientist
+  "Scientist_Dressing_Formal",           # Formal Dressing indicator for scientist
+  "Scientist_Expression_Positive",       # Positive Expression indicator for scientist
+  "Scientist_Expression_Neutral",        # Neutral Expression indicator for scientist
+  "Response_Ethnicity_Black",            # Respondent Ethnicity: Black
+  "Response_Ethnicity_White",            # Respondent Ethnicity: White
+  "Response_Ethnicity_EastAsian",        # Respondent Ethnicity: East Asian
+  "Response_Ethnicity_SouthAsian",       # Respondent Ethnicity: South Asian
+  "Response_Ethnicity_SoutheastAsian",   # Respondent Ethnicity: Southeast Asian
+  "Response_Ethnicity_Latino",           # Respondent Ethnicity: Latino
+  "Response_Ethnicity_Indigenous",       # Respondent Ethnicity: Indigenous
+  "Response_Ethnicity_MiddleEastern",    # Respondent Ethnicity: Middle Eastern / West Asian
+  "Response_Ethnicity_NotListed",        # Respondent Ethnicity: Not listed
+  "Response_Ethnicity_NotCertain",       # Respondent Ethnicity: Not certain
+  "Response_Ethnicity_PreferNotToAnswer" # Respondent Ethnicity: Prefer not to answer
+)
+
+# View the renamed data frame
+head(soapbox_data)
+View(soapbox_data)
+names(soapbox_data)
+```
+
+```{r}
+
+soapbox_data<-na.omit(soapbox_data)
+sum(is.na(soapbox_data))
+```
+
+
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Create a mapping of column names to shorter titles
+short_titles <- c(
+  "Improves_Lives" = "Science improves lives",
+  "Good_With_Scientific_Method" = "Proficiency in science",
+  "Consider_Career_In_STEM" = "Considering a STEM career",
+  "Inspired_By_Women_NonBinary_Scientists" = "Inspired by scientists",
+  "Interest_Increased_By_Event" = "Interest increased by event",
+  "Interest_In_Science_Research" = "Interest in research",
+  "Age" = "Age distribution",
+  "Gender" = "Gender distribution",
+  "Educational_Background" = "Educational background"
+)
+
+# Define a function to create a bar plot with dynamic label positioning
+plot_categorical <- function(data, column_name, plot_title) {
+  # Calculate counts and percentages
+  plot_data <- data %>%
+    group_by(.data[[column_name]]) %>%
+    summarise(Count = n(), .groups = "drop") %>%
+    mutate(Percentage = round((Count / sum(Count)) * 100, 1),
+           Label = paste0(Count, " (", Percentage, "%)"))  # Labels for bars
+  
+  # Create the horizontal bar plot
+  ggplot(plot_data, aes(x = Count, y = reorder(.data[[column_name]], Count), fill = Count)) +
+    geom_bar(stat = "identity", color = "black", width = 0.8) +  # Bars with black borders
+    
+    # Dynamic label placement: Inside for wide bars, outside for narrow bars
+    geom_text(aes(label = Label,
+                  hjust = ifelse(Count / max(Count) > 0.3, 1.1, -0.1)),  # Inside or outside based on bar size
+              color = ifelse(plot_data$Count / max(plot_data$Count) > 0.3, "white", "black"), 
+              size = 5, fontface = "bold") +
+    
+    scale_fill_gradient(low = "#D6EAF8", high = "#1B4F72") +  # Gradient fill
+    theme_minimal(base_size = 18) +  # Larger font size for readability
+    labs(title = plot_title, x = "Count", y = NULL) +  # Title and x-axis label
+    theme(
+      legend.position = "none",  # Remove legend
+      plot.title = element_text(size = 20, face = "bold", hjust = 0.5),  # Centered title
+      axis.title.x = element_text(size = 16, face = "bold"),
+      axis.text.x = element_text(size = 14, color = "black", face = "bold"),
+      axis.text.y = element_text(size = 16, color = "black", face = "bold"),
+      panel.grid.major = element_line(color = "lightgray"),
+      panel.grid.minor = element_blank()
+    ) +
+    xlim(0, max(plot_data$Count) * 1.2)  # Add padding for labels outside the bars
+}
+
+# Load your dataset (ensure `soapbox_data` is available)
+# Example: soapbox_data <- read.csv("your_data.csv")
+
+# Generate and save individual plots with improved readability
+for (col in names(short_titles)) {
+  # Define file name dynamically
+  file_name <- paste0(col, "_plot.png")
+  
+  # Save the plot to PNG
+  png(filename = file_name, width = 1200, height = 900, res = 150)
+  print(plot_categorical(soapbox_data, col, short_titles[[col]]))
+  dev.off()
+  
+  cat("Saved:", file_name, "\n")  # Confirmation message for each saved file
+}
+
+```
+
+```{r,eval=FALSE}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Create a mapping of column names to shorter titles
+short_titles <- c(
+  "Improves_Lives" = "Science improves lives",
+  "Good_With_Scientific_Method" = "Proficiency in science",
+  "Consider_Career_In_STEM" = "Considering a STEM career",
+  "Inspired_By_Women_NonBinary_Scientists" = "Inspired by scientists",
+  "Interest_Increased_By_Event" = "Interest increased by event",
+  "Interest_In_Science_Research" = "Interest in research",
+  "Age" = "Age distribution",
+  "Gender" = "Gender distribution",
+  "Educational_Background" = "Educational background"
+)
+
+# Define a function to create a bar plot with enhanced readability
+plot_categorical <- function(data, column_name, plot_title) {
+  # Calculate counts and percentages
+  plot_data <- data %>%
+    group_by(.data[[column_name]]) %>%
+    summarise(Count = n(), .groups = "drop") %>%
+    mutate(Percentage = round((Count / sum(Count)) * 100, 1),
+           Label = paste0(Count, " (", Percentage, "%)"))  # Labels for inside bars
+  
+  # Create the horizontal bar plot
+  ggplot(plot_data, aes(x = Count, y = reorder(.data[[column_name]], Count), fill = Count)) +
+    geom_bar(stat = "identity", color = "black", width = 0.8) +  # Increase bar width
+    geom_text(aes(label = Label), 
+              hjust = 1.1, color = "white", size = 5, fontface = "bold") +  # Inside bar labels
+    scale_fill_gradient(low = "#D6EAF8", high = "#1B4F72") +  # Gradient from light to dark blue
+    theme_minimal(base_size = 18) +  # Larger base font size
+    labs(title = plot_title, x = "Count", y = NULL) +  # Add clean title and x-axis label
+    theme(
+      legend.position = "none",  # Remove legend
+      plot.title = element_text(size = 20, face = "bold", hjust = 0.5),  # Larger, centered title
+      axis.title.x = element_text(size = 16, face = "bold"),  # Larger x-axis label
+      axis.text.x = element_text(size = 14, color = "black", face = "bold"),  # X-axis text
+      axis.text.y = element_text(size = 16, color = "black", face = "bold"),  # Y-axis text
+      panel.grid.major = element_line(color = "lightgray"),  # Subtle grid lines
+      panel.grid.minor = element_blank()  # Remove minor grid lines
+    ) +
+    xlim(0, max(plot_data$Count) * 1.2)  # Add padding for labels
+}
+
+# Load your dataset (ensure `soapbox_data` is available)
+# Example: soapbox_data <- read.csv("your_data.csv")
+
+# Generate and save individual plots
+for (col in names(short_titles)) {
+  # Define file name dynamically
+  file_name <- paste0(col, "_plot.png")
+  
+  # Save the plot to PNG
+  png(filename = file_name, width = 1200, height = 900, res = 150)
+  print(plot_categorical(soapbox_data, col, short_titles[[col]]))
+  dev.off()
+  
+  cat("Saved:", file_name, "\n")  # Confirmation message for each saved file
+}
+
+```
+
+
+
+
+```{r,eval=FALSE}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Create a mapping of column names to shorter titles
+short_titles <- c(
+  "Improves_Lives" = "Science improves lives",
+  "Good_With_Scientific_Method" = "Proficiency in science",
+  "Consider_Career_In_STEM" = "Considering a STEM career",
+  "Inspired_By_Women_NonBinary_Scientists" = "Inspired by scientists",
+  "Interest_Increased_By_Event" = "Interest increased by event",
+  "Interest_In_Science_Research" = "Interest in research",
+  "Age" = "Age distribution",
+  "Gender" = "Gender distribution",
+  "Educational_Background" = "Educational background"
+)
+
+# Define the plotting function with shorter titles and reduced title size
+plot_categorical <- function(data, column_name, plot_title) {
+  # Calculate counts and percentages
+  plot_data <- data %>%
+    group_by(.data[[column_name]]) %>%
+    summarise(Count = n(), .groups = "drop") %>%
+    mutate(Percentage = round((Count / sum(Count)) * 100, 1))  # Calculate percentage
+  
+  # Create the horizontal bar plot
+  ggplot(plot_data, aes(x = Count, y = reorder(.data[[column_name]], Count), fill = Count)) +
+    geom_bar(stat = 'identity', color = "black") +  # Gradient fill with black border
+    geom_text(aes(label = paste0(Count, " (", Percentage, "%)")), 
+              hjust = -0.1, color = "black", size = 5, fontface = "bold") +  # Adjust text label size
+    scale_fill_gradient(low = "lightblue", high = "darkblue") +  # Gradient color from light to dark blue
+    theme_minimal(base_size = 14, base_family = "Helvetica") +  # Minimal white background
+    labs(title = plot_title, x = "Count", y = NULL) +  # Use the explicit title
+    theme(
+      legend.position = "none",  # Remove the legend
+      plot.title = element_text(size = 14, face = "bold"),  # Reduce title size
+      axis.title.x = element_text(size = 14, face = "bold"),  # Adjust x-axis label size
+      axis.text.x = element_text(size = 14, color = "black", face = "bold"),  # Adjust x-axis text size
+      axis.text.y = element_text(size = 14, color = "black", face = "bold"),  # Adjust y-axis text size
+      plot.background = element_rect(fill = "white", color = NA),  # White background
+      panel.background = element_rect(fill = "white", color = NA),  # White panel background
+      panel.grid.major = element_line(color = "gray"),  # Gray grid lines
+      panel.grid.minor = element_blank()  # No minor grid lines
+    ) +
+    xlim(0, max(plot_data$Count) * 1.1)  # Adjust x-axis limits to ensure labels fit inside the plot
+}
+
+# Generate individual plots with shorter titles
+for (col in names(short_titles)) {
+  png(paste0(col, ".png"), width = 1200, height = 900, res = 150)  # Save each plot as a PNG
+  print(plot_categorical(soapbox_data, col, short_titles[[col]]))
+  dev.off()
+}
+
+```
+
+```{r}
+
+
+# List of categorical columns
+categorical_columns <- c("Improves_Lives", "Good_With_Scientific_Method", 
+                         "Consider_Career_In_STEM", "Inspired_By_Women_NonBinary_Scientists",
+                         "Interest_Increased_By_Event", "Interest_In_Science_Research",
+                         "Age", "Gender", "Educational_Background")
+
+
+# Save summary tables as CSV
+summary_tables <- lapply(categorical_columns, function(col) {
+  soapbox_data %>%
+    group_by(.data[[col]]) %>%
+    summarise(Count = n(), .groups = "drop") %>%
+    mutate(Percentage = round((Count / sum(Count)) * 100, 1)) %>%
+    mutate(Variable = col)
+})
+combined_summary <- bind_rows(summary_tables)
+write.csv(combined_summary, "Categorical_Variables_Summary.csv", row.names = FALSE)
+
+
+
+```
+
+
+
+The descriptive statistics provide valuable insights into participants' perceptions and backgrounds regarding science, research, and STEM careers. The analysis of each variable is presented below:
+
+Improves Lives:
+A vast majority of participants (93.3%) agreed that science and research improve lives, with 28 out of 30 respondents endorsing this view. Only 6.7% disagreed, indicating a strong consensus on the positive impact of science and research on life improvement.
+
+Good With Scientific Method:
+Most participants (63.3%, or 19 out of 30) reported confidence in their abilities related to the scientific method. Smaller proportions expressed varied levels of agreement or disagreement: 26.7% somewhat agreed, 6.7% completely disagreed, and 3.3% somewhat disagreed. This distribution suggests that while the majority feel confident in their scientific skills, there is a range of confidence levels among participants.
+
+Consider Career in STEM:
+The responses regarding motivation to pursue a career in STEM were spread across different levels of agreement. About 43.3% of participants were highly motivated to consider a STEM career, while the remaining responses indicated lower levels of interest. This varied distribution points to mixed feelings among participants about pursuing careers in STEM fields, with a significant portion demonstrating strong motivation.
+
+Inspired by Women and Non-Binary Scientists:
+Most participants (93.3%) reported being inspired by women and non-binary scientists, highlighting strong support for diverse role models in science. Only 6.7% somewhat agreed, suggesting that diverse representation in science is highly impactful for the majority of participants.
+
+Interest Increased by Event:
+A significant proportion of participants (70%) indicated that their interest in science and research increased due to a specific event, while 30% reported somewhat agrees about the increases in interest. These findings suggest that events can effectively boost interest in science for most participants, although a notable group remains less affected.
+
+Interest in Science Research:
+Interest in science research varied among participants, with 56.7% expressing high interest, 26.7% indicating medium interest, and 16.7% reporting low interest. Overall, these responses reflect a generally positive attitude towards science research, with over half of the respondents showing strong interest.
+
+Age:
+The age distribution of participants is spread across several categories, with the highest percentage (40%) falling within a specific age group of 31-40. Moreover,most of the participants were from age group 21-50 with 76.7%.Smaller percentages are observed in other age categories along with 2 participants prefered not to ans , indicating diversity in the age range of the sample, which could potentially influence the overall results.
+
+Gender:
+The majority of participants (60%) who responded were females followed by 33.3% males, while 1 participant from non binary gender and 1 prefer not to ans. This distribution may influence the interpretation of gender-related analyses due to the predominance of one group.
+
+Educational Background:
+Participants' educational backgrounds vary, with the highest percentage (23.3%) from undergrad and grad each followed by high school of 20% students. Other levels of education are represented in smaller proportions college diploma of 13.3% and while red seal and elementary schol with 10%, suggesting different levels of scientific literacy and experience among participants. This variation could affect their responses to other variables.
+
+Overall Conclusion
+The results indicate strong support for the positive impact of science, the influence of diverse role models, and the interest in STEM careers. However, the diversity in responses across variables such as career consideration, confidence in scientific methods, and educational background underscores the need for targeted strategies to address different segments within the population. This approach will help to better understand and support the varying levels of engagement and motivation among different groups.
+
+
+
+
+
+```{r,eval=FALSE}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(tibble)
+
+# Set up the data preparation
+prepare_summary_df <- function(data, attribute_columns, total_participants) {
+  # Calculate frequency of each attribute
+  summary_stats <- colSums(data[, attribute_columns])
+  
+  # Convert summary stats to a data frame
+  summary_df <- as.data.frame(summary_stats) %>%
+    rownames_to_column(var = "Attribute") %>%
+    rename(Frequency = summary_stats) %>%
+    mutate(Percentage = round((Frequency / total_participants) * 100, 1))  # Calculate percentage for each attribute
+  
+  return(summary_df)
+}
+
+# Plotting function for the summary statistics with enhanced text readability
+plot_summary <- function(summary_df) {
+  ggplot(summary_df, aes(x = Attribute, y = Frequency, fill = Attribute)) +
+    geom_bar(stat = "identity", fill = "blue") +  # Set bars to blue
+    geom_text(aes(label = paste(Frequency, " (", Percentage, "%)", sep = "")), 
+              vjust = -0.5, color = "black", size = 6) +  # Larger text labels for counts and percentages
+    theme_minimal(base_size = 16, base_family = "Helvetica") +  # Increase base font size for readability
+    labs(title = "Distribution of Scientist Attributes", x = NULL, y = "Frequency") +
+    theme(
+      legend.position = "none",  # Remove the legend
+      axis.text.x = element_text(angle = 30, hjust = 1, color = "black", size = 14, face = "bold"),  # Slant x-axis text at 30 degrees, increase size and bold
+      axis.text.y = element_text(color = "black", size = 14, face = "bold"),  # Ensure y-axis text is black and bold
+      plot.title = element_text(size = 20, hjust = 0.5, face = "bold"),  # Centered and larger title
+      plot.background = element_rect(fill = "white", color = NA),  # White background
+      panel.background = element_rect(fill = "white", color = NA)  # White background for the panel
+    )
+}
+
+# Assuming `soapbox_data` is the data frame and contains the necessary data
+# Replace this with the actual number of participants
+total_participants <- nrow(soapbox_data)
+
+# List of attribute columns for scientist characteristics
+attribute_columns <- c("Scientist_Age_MiddleAged", "Scientist_Age_Older", 
+                       "Scientist_Ethnicity_White", "Scientist_Ethnicity_Black", 
+                       "Scientist_Ethnicity_Asian", "Scientist_Gender_Male", 
+                       "Scientist_Gender_Female", "Scientist_Dressing_Casual", 
+                       "Scientist_Dressing_Formal", "Scientist_Expression_Positive", 
+                       "Scientist_Expression_Neutral")
+
+# Prepare the summary data frame
+summary_df <- prepare_summary_df(soapbox_data, attribute_columns, total_participants)
+
+# Display the table
+print(summary_df)
+
+# Find the attribute chosen the least
+least_chosen_attribute <- summary_df %>% 
+  filter(Frequency == min(Frequency)) %>%
+  select(Attribute)
+cat("The attribute chosen the least is:", least_chosen_attribute$Attribute, "\n")
+
+# Save the plot as a PNG file with increased resolution
+png("Scientist_Attributes_Distribution.png", width = 1200, height = 900, res = 150)  # Adjusted dimensions for better readability
+plot_summary(summary_df)  # Generate the plot
+dev.off()  # Close the device
+
+
+```
+
+
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(tibble)
+
+# Data preparation function: Summarizes attribute frequencies and calculates percentages
+prepare_summary_df <- function(data, attribute_columns, total_participants) {
+  # Calculate total frequency of each attribute
+  summary_stats <- colSums(data[, attribute_columns], na.rm = TRUE)
+  
+  # Convert summary stats to a clean data frame
+  summary_df <- as.data.frame(summary_stats) %>%
+    rownames_to_column(var = "Attribute") %>%
+    rename(Frequency = summary_stats) %>%
+    mutate(Percentage = round((Frequency / total_participants) * 100, 1),
+           Label = paste0(Frequency, " (", Percentage, "%)"))  # Generate labels
+  
+  return(summary_df)
+}
+
+# Plotting function: Horizontal bar plot with gradient colors and labels
+plot_summary_horizontal <- function(summary_df, plot_title) {
+  ggplot(summary_df, aes(x = Frequency, y = reorder(Attribute, Frequency), fill = Frequency)) +
+    geom_bar(stat = "identity", color = "black", width = 0.8) +  # Bars with black borders
+    geom_text(aes(label = Label), 
+              hjust = -0.1, color = "black", size = 5, fontface = "bold") +  # Label with counts and percentages
+    scale_fill_gradient(low = "#D6EAF8", high = "#1B4F72") +  # Gradient fill
+    theme_minimal(base_size = 18) +  # Larger font for better readability
+    labs(title = plot_title, x = "Frequency", y = NULL) +  # Add clean title and x-axis label
+    theme(
+      legend.position = "none",  # Remove legend
+      plot.title = element_text(size = 20, face = "bold", hjust = 0.5),  # Centered title
+      axis.title.x = element_text(size = 16, face = "bold"),  # X-axis label size
+      axis.text.x = element_text(size = 14, color = "black", face = "bold"),  # X-axis ticks
+      axis.text.y = element_text(size = 14, color = "black", face = "bold"),  # Y-axis ticks
+      panel.grid.major = element_line(color = "lightgray"),  # Subtle grid lines
+      panel.grid.minor = element_blank()  # No minor grid lines
+    ) +
+    xlim(0, max(summary_df$Frequency) * 1.2)  # Padding for labels outside bars
+}
+
+# Number of participants in the dataset
+total_participants <- nrow(soapbox_data)  # Replace 'soapbox_data' with your dataset
+
+# List of attribute columns for scientist characteristics
+attribute_columns <- c("Scientist_Age_MiddleAged", "Scientist_Age_Older", 
+                       "Scientist_Ethnicity_White", "Scientist_Ethnicity_Black", 
+                       "Scientist_Ethnicity_Asian", "Scientist_Gender_Male", 
+                       "Scientist_Gender_Female", "Scientist_Dressing_Casual", 
+                       "Scientist_Dressing_Formal", "Scientist_Expression_Positive", 
+                       "Scientist_Expression_Neutral")
+
+# Step 1: Prepare the summary data frame
+summary_df <- prepare_summary_df(soapbox_data, attribute_columns, total_participants)
+
+# Step 2: Print the summary table
+print(summary_df)
+
+# Step 3: Find the attribute chosen the least
+least_chosen_attribute <- summary_df %>% 
+  filter(Frequency == min(Frequency)) %>%
+  select(Attribute)
+cat("The attribute chosen the least is:", least_chosen_attribute$Attribute, "\n")
+
+# Step 4: Save the plot with improved format
+png("Scientist_Attributes_Distribution_Horizontal.png", width = 1400, height = 1000, res = 150)
+plot_summary_horizontal(summary_df, "Distribution of Scientist Attributes")
+dev.off()
+
+```
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(tibble)
+
+# Data preparation function: Summarizes attribute frequencies and calculates percentages
+prepare_summary_df <- function(data, attribute_columns, total_participants) {
+  # Calculate total frequency of each attribute
+  summary_stats <- colSums(data[, attribute_columns], na.rm = TRUE)
+  
+  # Convert summary stats to a clean data frame
+  summary_df <- as.data.frame(summary_stats) %>%
+    rownames_to_column(var = "Attribute") %>%
+    rename(Frequency = summary_stats) %>%
+    mutate(Percentage = round((Frequency / total_participants) * 100, 1),
+           Label = paste0(Frequency, " (", Percentage, "%)"))  # Generate labels
+  
+  return(summary_df)
+}
+
+# Plotting function: Horizontal bar plot with gradient colors and labels
+plot_summary_horizontal <- function(summary_df, plot_title) {
+  ggplot(summary_df, aes(x = Frequency, y = reorder(Attribute, Frequency), fill = Frequency)) +
+    geom_bar(stat = "identity", color = "black", width = 0.8) +  # Bars with black borders
+    geom_text(aes(label = Label), 
+              hjust = -0.1, color = "black", size = 5, fontface = "bold") +  # Label with counts and percentages
+    scale_fill_gradient(low = "#D6EAF8", high = "#1B4F72") +  # Gradient fill
+    theme_minimal(base_size = 18) +  # Larger font for better readability
+    labs(title = plot_title, x = "Frequency", y = NULL) +  # Add clean title and x-axis label
+    theme(
+      legend.position = "none",  # Remove legend
+      plot.title = element_text(size = 20, face = "bold", hjust = 0.5),  # Centered title
+      axis.title.x = element_text(size = 16, face = "bold"),  # X-axis label size
+      axis.text.x = element_text(size = 14, color = "black", face = "bold"),  # X-axis ticks
+      axis.text.y = element_text(size = 14, color = "black", face = "bold"),  # Y-axis ticks
+      panel.grid.major = element_line(color = "lightgray"),  # Subtle grid lines
+      panel.grid.minor = element_blank()  # No minor grid lines
+    ) +
+    xlim(0, max(summary_df$Frequency) * 1.2)  # Padding for labels outside bars
+}
+
+# Number of participants in the dataset
+total_participants <- nrow(soapbox_data)  # Replace 'soapbox_data' with your dataset
+
+# List of attribute columns for scientist characteristics
+attribute_columns <- c("Scientist_Age_MiddleAged", "Scientist_Age_Older", 
+                       "Scientist_Ethnicity_White", "Scientist_Ethnicity_Black", 
+                       "Scientist_Ethnicity_Asian", "Scientist_Gender_Male", 
+                       "Scientist_Gender_Female", "Scientist_Dressing_Casual", 
+                       "Scientist_Dressing_Formal", "Scientist_Expression_Positive", 
+                       "Scientist_Expression_Neutral")
+
+# Step 1: Prepare the summary data frame
+summary_df <- prepare_summary_df(soapbox_data, attribute_columns, total_participants)
+
+# Step 2: Print the summary table
+print(summary_df)
+
+# Step 3: Find the attribute chosen the least
+least_chosen_attribute <- summary_df %>% 
+  filter(Frequency == min(Frequency)) %>%
+  select(Attribute)
+cat("The attribute chosen the least is:", least_chosen_attribute$Attribute, "\n")
+
+# Step 4: Save the plot with improved format
+png("Scientist_Attributes_Distribution_Horizontal.png", width = 1400, height = 1000, res = 150)
+plot_summary_horizontal(summary_df, "Distribution of Scientist Attributes")
+dev.off()
+
+```
+
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(tibble)
+
+# Data preparation function: Summarizes attribute frequencies and calculates percentages
+prepare_summary_df <- function(data, attribute_columns, total_participants) {
+  # Calculate total frequency of each attribute
+  summary_stats <- colSums(data[, attribute_columns], na.rm = TRUE)
+  
+  # Convert summary stats to a clean data frame
+  summary_df <- as.data.frame(summary_stats) %>%
+    rownames_to_column(var = "Attribute") %>%
+    rename(Frequency = summary_stats) %>%
+    mutate(Percentage = round((Frequency / total_participants) * 100, 1),
+           Label = paste0(Frequency, " (", Percentage, "%)"))  # Generate labels
+  
+  return(summary_df)
+}
+
+# Plotting function: Horizontal bar plot with dynamic label adjustments
+plot_summary_horizontal <- function(summary_df, plot_title) {
+  ggplot(summary_df, aes(x = Frequency, y = reorder(Attribute, Frequency), fill = Frequency)) +
+    geom_bar(stat = "identity", color = "black", width = 0.8) +  # Bars with black borders
+    
+    # Dynamic label position and color for narrow bars
+    geom_text(aes(label = Label, 
+                  hjust = ifelse(Frequency / max(Frequency) > 0.3, 1.1, -0.1)),  # Inside for wide, outside for narrow
+              color = ifelse(summary_df$Frequency / max(summary_df$Frequency) > 0.3, "white", "black"), 
+              size = 5, fontface = "bold") +
+    
+    scale_fill_gradient(low = "#D6EAF8", high = "#1B4F72") +  # Gradient fill
+    theme_minimal(base_size = 18) +  # Larger font for better readability
+    labs(title = plot_title, x = "Frequency", y = NULL) +  # Add clean title and x-axis label
+    theme(
+      legend.position = "none",  # Remove legend
+      plot.title = element_text(size = 20, face = "bold", hjust = 0.5),  # Centered title
+      axis.title.x = element_text(size = 16, face = "bold"),  # X-axis label size
+      axis.text.x = element_text(size = 14, color = "black", face = "bold"),  # X-axis ticks
+      axis.text.y = element_text(size = 14, color = "black", face = "bold"),  # Y-axis ticks
+      panel.grid.major = element_line(color = "lightgray"),  # Subtle grid lines
+      panel.grid.minor = element_blank()  # Remove minor grid lines
+    ) +
+    xlim(0, max(summary_df$Frequency) * 1.3)  # Extra padding for outside labels
+}
+
+# Number of participants in the dataset
+total_participants <- nrow(soapbox_data)  # Replace 'soapbox_data' with your dataset
+
+# List of attribute columns for scientist characteristics
+attribute_columns <- c("Scientist_Age_MiddleAged", "Scientist_Age_Older", 
+                       "Scientist_Ethnicity_White", "Scientist_Ethnicity_Black", 
+                       "Scientist_Ethnicity_Asian", "Scientist_Gender_Male", 
+                       "Scientist_Gender_Female", "Scientist_Dressing_Casual", 
+                       "Scientist_Dressing_Formal", "Scientist_Expression_Positive", 
+                       "Scientist_Expression_Neutral")
+
+# Step 1: Prepare the summary data frame
+summary_df <- prepare_summary_df(soapbox_data, attribute_columns, total_participants)
+
+# Step 2: Print the summary table
+print(summary_df)
+
+# Step 3: Find the attribute chosen the least
+least_chosen_attribute <- summary_df %>% 
+  filter(Frequency == min(Frequency)) %>%
+  select(Attribute)
+cat("The attribute chosen the least is:", least_chosen_attribute$Attribute, "\n")
+
+# Step 4: Save the plot with improved format
+png("Scientist_Attributes_Distribution_Horizontal.png", width = 1400, height = 1000, res = 150)
+plot_summary_horizontal(summary_df, "Distribution of Scientist Attributes")
+dev.off()
+
+```
+
+```{r,eval=FALSE}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(tibble)
+
+# Set up the data preparation
+prepare_summary_df <- function(data, attribute_columns, total_participants) {
+  # Calculate frequency of each attribute
+  summary_stats <- colSums(data[, attribute_columns])
+  
+  # Convert summary stats to a data frame
+  summary_df <- as.data.frame(summary_stats) %>%
+    rownames_to_column(var = "Attribute") %>%
+    rename(Frequency = summary_stats) %>%
+    mutate(Percentage = round((Frequency / total_participants) * 100, 1))  # Calculate percentage for each attribute
+  
+  return(summary_df)
+}
+
+# Plotting function for the summary statistics in horizontal format with gradient colors
+plot_summary_horizontal <- function(summary_df) {
+  ggplot(summary_df, aes(x = Frequency, y = reorder(Attribute, Frequency), fill = Frequency)) +
+    geom_bar(stat = "identity", color = "black") +  # Bars with a black border
+    geom_text(aes(label = paste(Frequency, " (", Percentage, "%)", sep = "")), 
+              hjust = -0.1, color = "black", size = 5, fontface = "bold") +  # Adjust text size and position
+    scale_fill_gradient(low = "lightblue", high = "darkblue") +  # Gradient from light blue to dark blue
+    theme_minimal(base_size = 16, base_family = "Helvetica") +  # Larger font size for readability
+    labs(title = NULL, x = "Frequency", y = NULL) +  # No title, labels for clarity
+    theme(
+      legend.position = "none",  # Remove the legend
+      axis.text.x = element_text(size = 14, color = "black", face = "bold"),  # Adjust x-axis text
+      axis.text.y = element_text(size = 14, color = "black", face = "bold"),  # Adjust y-axis text
+      plot.background = element_rect(fill = "white", color = NA),  # White background
+      panel.background = element_rect(fill = "white", color = NA),  # White panel
+      panel.grid.major = element_line(color = "gray"),  # Gray grid lines
+      panel.grid.minor = element_blank()  # No minor grid lines
+    ) +
+    xlim(0, max(summary_df$Frequency) * 1.1)  # Adjust x-axis to fit text inside the plot
+}
+
+
+# Replace this with the actual number of participants
+total_participants <- nrow(soapbox_data)
+
+# List of attribute columns for scientist characteristics
+attribute_columns <- c("Scientist_Age_MiddleAged", "Scientist_Age_Older", 
+                       "Scientist_Ethnicity_White", "Scientist_Ethnicity_Black", 
+                       "Scientist_Ethnicity_Asian", "Scientist_Gender_Male", 
+                       "Scientist_Gender_Female", "Scientist_Dressing_Casual", 
+                       "Scientist_Dressing_Formal", "Scientist_Expression_Positive", 
+                       "Scientist_Expression_Neutral")
+
+# Prepare the summary data frame
+summary_df <- prepare_summary_df(soapbox_data, attribute_columns, total_participants)
+
+# Display the table
+print(summary_df)
+
+# Find the attribute chosen the least
+least_chosen_attribute <- summary_df %>% 
+  filter(Frequency == min(Frequency)) %>%
+  select(Attribute)
+cat("The attribute chosen the least is:", least_chosen_attribute$Attribute, "\n")
+
+# Save the plot as a PNG file with horizontal format and gradient colors
+png("Scientist_Attributes_Distribution_Horizontal.png", width = 1400, height = 1000, res = 150)  # Adjust dimensions
+plot_summary_horizontal(summary_df)  # Generate the plot
+dev.off()  # Close the device
+
+```
+
+
+
+
+
+```{r}
+
+soapbox_data_categorised <- soapbox_data
+# Define the categorical conversion for each relevant column
+convert_to_numeric <- function(column, levels) {
+  factor_column <- factor(column, levels = levels, labels = 1:length(levels))
+  as.numeric(factor_column)
+}
+
+# List of levels in order for each column (example)
+levels_list <- list(
+  Improves_Lives = c("Completely disagree",  "Completely agree"),
+  Good_With_Scientific_Method = c("Completely disagree", "Somewhat disagree",  "Somewhat agree", "Completely agree"),
+  Consider_Career_In_STEM = c("Completely disagree", "Somewhat disagree",  "Somewhat agree", "Completely agree"),
+  Inspired_By_Women_NonBinary_Scientists = c( "Somewhat agree", "Completely agree"),
+  Interest_Increased_By_Event = c("Somewhat agree", "Completely agree"),
+  Interest_In_Science_Research = c( "Somewhat interested", "Interested", "Very interested")
+)
+
+# Apply the conversion function
+soapbox_data_categorised$Improves_Lives <- convert_to_numeric(soapbox_data_categorised$Improves_Lives, levels_list$Improves_Lives)
+soapbox_data_categorised$Good_With_Scientific_Method <- convert_to_numeric(soapbox_data_categorised$Good_With_Scientific_Method, levels_list$Good_With_Scientific_Method)
+soapbox_data_categorised$Consider_Career_In_STEM <- convert_to_numeric(soapbox_data_categorised$Consider_Career_In_STEM, levels_list$Consider_Career_In_STEM)
+soapbox_data_categorised$Inspired_By_Women_NonBinary_Scientists <- convert_to_numeric(soapbox_data_categorised$Inspired_By_Women_NonBinary_Scientists, levels_list$Inspired_By_Women_NonBinary_Scientists)
+soapbox_data_categorised$Interest_Increased_By_Event <- convert_to_numeric(soapbox_data_categorised$Interest_Increased_By_Event, levels_list$Interest_Increased_By_Event)
+soapbox_data_categorised$Interest_In_Science_Research <- convert_to_numeric(soapbox_data_categorised$Interest_In_Science_Research, levels_list$Interest_In_Science_Research)
+
+# Check the structure of the data to verify the categorical variables
+str(soapbox_data_categorised)
+View(soapbox_data_categorised)
+
+
+```
+
+
+
+```{r}
+
+
+# Load necessary libraries
+library(dplyr)
+
+# Convert 'Age' column to numeric categories
+soapbox_data_categorised <- soapbox_data_categorised %>%
+  mutate(
+    Age = case_when(
+      Age == "12-15" ~ 1,
+      Age == "16-20" ~ 2,
+      Age == "21-30" ~ 3,
+      Age == "31-40" ~ 4,
+      Age == "41-50" ~ 5,
+      Age == "51-60" ~ 6,
+      Age =="Older than 61" ~ 7,
+      Age == "Prefer not to answer" ~ 8,
+      TRUE ~ NA_real_  # Handle missing values or other cases
+    )
+  )
+
+# Convert 'Gender' column to numeric categories
+soapbox_data_categorised <- soapbox_data_categorised %>%
+  mutate(
+    Gender = case_when(
+      Gender == "Male" ~ 1,
+      Gender == "Female" ~ 2,
+      Gender == "Non-binary" ~ 3,
+      Gender == "Prefer not to answer" ~ 4,
+      TRUE ~ NA_real_  # Handle missing values or other cases
+    )
+  )
+
+# Convert 'Educational_Background' column to numeric categories
+soapbox_data_categorised <- soapbox_data_categorised %>%
+  mutate(
+    Educational_Background = case_when(
+      Educational_Background == "Elementary School" ~ 1,
+      Educational_Background == "High school" ~ 2,
+      Educational_Background == "College Diploma" ~ 3,
+      Educational_Background == "Undergraduate degree" ~ 4,
+      Educational_Background == "Graduate degree" ~ 5,
+      Educational_Background == "Red Seal" ~ 6,
+      TRUE ~ NA_real_  # Handle missing values or other cases
+    )
+  )
+
+# View the updated data
+str(soapbox_data_categorised)  # Check the structure of the data to verify the changes
+head(soapbox_data_categorised)  # Display the first few rows to verify the changes
+View(soapbox_data_categorised)  # View the data in RStudio viewer
+# Save the data frame as an Excel file
+write.xlsx(soapbox_data_categorised, "soapbox_data_categorised.xlsx", rowNames = FALSE)
+
+
+```
+
+
+```{r}
+# Read the saved Excel file back into R
+data <- read.xlsx("soapbox_data_categorised.xlsx")
+
+# View the data to verify
+head(data)
+str(data)
+View(data)
+
+
+```
+
+
+
+
+
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+
+# Check for columns that have all zero entries
+zero_columns <- sapply(data, function(col) all(col == 0))
+
+# Display the columns that have all-zero entries (if any)
+if (any(zero_columns)) {
+  print(names(data)[zero_columns])
+  # Remove columns that have all zero entries
+  data <- data[, !zero_columns]
+  cat("Columns with all-zero entries have been removed.\n")
+} else {
+  cat("No columns with all-zero entries found.\n")
+}
+
+# Display the structure of the cleaned data
+str(data)
+
+```
+
+
+
+
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(tibble)
+
+# Calculate the frequency of each ethnicity response
+ethnicity_sums <- colSums(data[, grepl("Response_Ethnicity", names(data))])
+
+# Assuming total number of participants
+total_participants <- nrow(data)
+
+# Convert to data frame for plotting
+ethnicity_df <- as.data.frame(ethnicity_sums) %>%
+  rownames_to_column(var = "Ethnicity") %>%
+  rename(Frequency = ethnicity_sums) %>%
+  mutate(Percentage = round((Frequency / total_participants) * 100, 1),
+         Label = paste0(Frequency, " (", Percentage, "%)"))  # Add labels with counts and percentages
+
+# Dynamic bar label adjustments (position & color based on bar width)
+plot <- ggplot(ethnicity_df, aes(x = Frequency, y = reorder(Ethnicity, Frequency), fill = Frequency)) +
+  geom_bar(stat = "identity", color = "black", width = 0.8) +  # Bars with black borders
+  
+  # Dynamic labels: position and color adjustments
+  geom_text(aes(label = Label, 
+                hjust = ifelse(Frequency / max(Frequency) > 0.3, 1.1, -0.2),  # Inside for wide, outside for narrow
+                color = ifelse(Frequency / max(Frequency) > 0.3, "white", "black")),  # Text color logic
+            size = 5, fontface = "bold") +
+  
+  scale_fill_gradient(low = "lightblue", high = "darkblue") +  # Gradient from light to dark blue
+  scale_color_identity() +  # Allows manual control of text color
+  
+  # Improve aesthetics and readability
+  theme_minimal(base_size = 14, base_family = "Helvetica") +
+  labs(title = "Ethnicity Distribution", x = "Frequency", y = NULL) +
+  theme(
+    legend.position = "none",  # Remove legend
+    axis.text.x = element_text(size = 12, color = "black", face = "bold"),  # X-axis text size
+    axis.text.y = element_text(size = 12, color = "black", face = "bold"),  # Y-axis text size
+    plot.title = element_text(size = 18, face = "bold", hjust = 0.5),  # Title style
+    panel.grid.major = element_line(color = "gray"),  # Subtle grid lines
+    panel.grid.minor = element_blank()  # Remove minor grid lines
+  ) +
+  xlim(0, max(ethnicity_df$Frequency) * 1.3)  # Extra padding for outside labels
+
+# Save the horizontal plot as a JPG file
+jpeg("Ethnicity_Distribution_Horizontal.jpg", width = 1200, height = 900, res = 150)
+print(plot)  # Generate and display the updated plot
+dev.off()  # Close the device
+
+# Display the table of counts and percentages
+print(ethnicity_df)
+
+```
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(tibble)
+
+# Calculate the frequency of each ethnicity response
+ethnicity_sums <- colSums(data[, grepl("Response_Ethnicity", names(data))])
+
+# Assuming total number of participants is 30
+total_participants <- nrow(data)
+
+# Convert to data frame for plotting
+ethnicity_df <- as.data.frame(ethnicity_sums)
+ethnicity_df <- ethnicity_df %>%
+  rownames_to_column(var = "Ethnicity") %>%
+  rename(Frequency = ethnicity_sums) %>%
+  mutate(Percentage = round((Frequency / total_participants) * 100, 1))  # Calculate percentage based on participants
+
+# Create a horizontal bar plot with gradient colors and improved readability
+plot <- ggplot(ethnicity_df, aes(x = Frequency, y = reorder(Ethnicity, Frequency), fill = Frequency)) +
+  geom_bar(stat = "identity", color = "black") +  # Gradient fill with black border
+  geom_text(aes(label = paste0(Frequency, " (", Percentage, "%)")), 
+            hjust = -0.2, color = "black", size = 3, fontface = "bold") +  # Position labels outside bars
+  scale_fill_gradient(low = "lightblue", high = "darkblue") +  # Gradient color from light to dark blue
+  theme_minimal(base_size = 14, base_family = "Helvetica") +  # White background with readable font
+  labs(title = NULL, x = "Frequency", y = NULL) +  # No title, axis labels for clarity
+  theme(
+    legend.position = "none",  # Remove the legend
+    axis.text.x = element_text(size = 12, color = "black", face = "bold"),  # Adjust x-axis text size and style
+    axis.text.y = element_text(size = 12, color = "black", face = "bold"),  # Adjust y-axis text size and style
+    plot.background = element_rect(fill = "white", color = NA),  # White background
+    panel.background = element_rect(fill = "white", color = NA),  # White panel background
+    panel.grid.major = element_line(color = "gray"),  # Gray grid lines
+    panel.grid.minor = element_blank()  # No minor grid lines
+  ) +
+  xlim(0, max(ethnicity_df$Frequency) * 1.1)  # Adjust x-axis limits to fit labels
+
+# Save the horizontal plot as a JPG file
+jpeg("Ethnicity_Distribution_Horizontal.jpg", width = 1200, height = 900, res = 150)
+print(plot)  # Generate and display the updated plot
+dev.off()  # Close the device
+
+# Display the table of counts and percentages
+print(ethnicity_df)
+
+```
+
+
+
+
+```{r}
+# Load required libraries
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+
+# 1. Analyze ethnicity selection by White respondents
+ethnicity_by_white <- data %>%
+  filter(Response_Ethnicity_White == 1) %>%  # Only White respondents
+  summarise(
+    White = sum(Scientist_Ethnicity_White, na.rm = TRUE),
+    Black = sum(Scientist_Ethnicity_Black, na.rm = TRUE),
+    Asian = sum(Scientist_Ethnicity_Asian, na.rm = TRUE)
+  ) %>%
+  gather(key = "Ethnicity", value = "Count") %>%
+  mutate(
+    Total_Respondents = nrow(data %>% filter(Response_Ethnicity_White == 1)),
+    Percentage = round((Count / Total_Respondents) * 100, 1),
+    Label = paste0(Count, " (", Percentage, "%)")
+  ) %>%
+  arrange(desc(Percentage))
+
+# 2. Analyze gender selection by female respondents
+gender_by_female <- data %>%
+  filter(Gender == 2) %>%  # Only Female respondents
+  summarise(
+    Male = sum(Scientist_Gender_Male, na.rm = TRUE),
+    Female = sum(Scientist_Gender_Female, na.rm = TRUE)
+  ) %>%
+  gather(key = "Gender", value = "Count") %>%
+  mutate(
+    Total_Respondents = nrow(data %>% filter(Gender == 2)),
+    Percentage = round((Count / Total_Respondents) * 100, 1),
+    Label = paste0(Count, " (", Percentage, "%)")
+  ) %>%
+  arrange(desc(Percentage))
+
+# Function for dynamic labels and readability
+plot_dynamic_labels <- function(data, x_label, y_label, title) {
+  ggplot(data, aes(x = Count, y = reorder(!!sym(x_label), Count), fill = Percentage)) +
+    geom_bar(stat = "identity", color = "black", width = 0.8) +
+    geom_text(aes(label = Label, 
+                  hjust = ifelse(Count / max(Count) > 0.3, 1.1, -0.2), 
+                  color = ifelse(Count / max(Count) > 0.3, "white", "black")),
+              size = 5, fontface = "bold") +
+    scale_fill_gradient(low = "lightblue", high = "darkblue") +
+    scale_color_identity() +
+    labs(title = title, x = "Count", y = NULL) +
+    theme_minimal(base_size = 16) +
+    theme(
+      plot.title = element_text(size = 18, face = "bold", hjust = 0.5),
+      axis.text.x = element_text(size = 14, face = "bold", color = "black"),
+      axis.text.y = element_text(size = 14, face = "bold", color = "black"),
+      legend.position = "none",
+      panel.grid.major = element_line(color = "gray"),
+      panel.grid.minor = element_blank()
+    ) +
+    xlim(0, max(data$Count) * 1.2)  # Extra space for outside labels
+}
+
+# 3. Plot ethnicity selection by White respondents
+plot_ethnicity <- plot_dynamic_labels(ethnicity_by_white, "Ethnicity", "Count", 
+                                      "Ethnicity Selection by White Respondents")
+ggsave("ethnicity_selection_by_white_with_labels.png", plot_ethnicity, width = 8, height = 6, dpi = 150)
+
+# 4. Plot gender selection by female respondents
+plot_gender <- plot_dynamic_labels(gender_by_female, "Gender", "Count", 
+                                   "Gender Selection by Female Respondents")
+ggsave("gender_selection_by_female_with_labels.png", plot_gender, width = 8, height = 6, dpi = 150)
+
+# Display results
+print("Ethnicity selection by White respondents:")
+print(ethnicity_by_white)
+
+print("Gender selection by Female respondents:")
+print(gender_by_female)
+
+```
+
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(tidyr)   # For pivot_longer
+library(ggalluvial)  # For alluvial plots
+
+# ------------------ Proportional Bar Plot Preparation ------------------
+# Data Preparation: Proportional Distribution
+proportional_data <- data %>%
+  pivot_longer(cols = starts_with("Scientist_"), names_to = "Attribute", values_to = "Selected") %>%
+  filter(Selected == 1) %>%
+  pivot_longer(cols = starts_with("Response_Ethnicity"), names_to = "Ethnicity", values_to = "Ethnicity_Selected") %>%
+  filter(Ethnicity_Selected == 1) %>%
+  group_by(Ethnicity, Attribute) %>%
+  summarise(Count = n(), .groups = "drop") %>%
+  mutate(
+    Total = sum(Count),
+    Proportion = round(Count / Total, 3),
+    Label = paste0(round(Proportion * 100, 1), "%")  # Add percentage labels
+  )
+
+# Plot: Proportional Bar Plot with Dynamic Labels
+proportional_plot <- ggplot(proportional_data, aes(x = Ethnicity, y = Proportion, fill = Attribute)) +
+  geom_bar(stat = "identity", position = "stack", color = "black") +  # Black border for clarity
+  geom_text(aes(label = Label),
+            position = position_stack(vjust = 0.5),  # Position labels dynamically
+            size = 4, fontface = "bold", color = "black") +
+  scale_fill_brewer(palette = "Set3") +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 12, face = "bold"),
+    axis.text.y = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 10),
+    legend.title = element_text(size = 12, face = "bold"),
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5)
+  ) +
+  labs(
+    title = "Proportional Distribution of Scientist Attributes by Ethnicity",
+    x = "Ethnicity",
+    y = "Proportion",
+    fill = "Scientist Attributes"
+  )
+
+# Save the Proportional Plot
+ggsave("proportional_distribution_by_ethnicity.png", proportional_plot, width = 10, height = 7, dpi = 300)
+
+# ------------------ Alluvial Plot Preparation ------------------
+# Data Preparation for Alluvial Plot
+alluvial_data <- proportional_data %>%
+  select(Ethnicity, Attribute, Count)
+
+# Plot: Alluvial Diagram with Improved Label Positioning
+alluvial_plot <- ggplot(alluvial_data,
+       aes(axis1 = Ethnicity, axis2 = Attribute, y = Count)) +
+  geom_alluvium(aes(fill = Attribute), color = "darkgray", alpha = 0.8) +
+  geom_stratum(color = "black", size = 0.5) +
+  geom_text(stat = "stratum", aes(label = after_stat(stratum)),
+            size = 3.5, fontface = "bold") +
+  scale_x_discrete(limits = c("Ethnicity", "Attribute"), expand = c(0.15, 0.05)) +
+  scale_fill_brewer(palette = "Set3") +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(size = 12, face = "bold"),
+    axis.text.y = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 10),
+    legend.title = element_text(size = 12, face = "bold"),
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5)
+  ) +
+  labs(
+    title = "Alluvial Plot of Ethnicity and Scientist Attribute Relationships",
+    x = "", y = "Count",
+    fill = "Scientist Attributes"
+  )
+
+# Save the Alluvial Plot
+ggsave("enhanced_alluvial_plot.png", alluvial_plot, width = 12, height = 8, dpi = 300)
+
+# ------------------ Output Results ------------------
+print("Proportional Data Table:")
+print(proportional_data)
+
+
+```
+
+
+
+
